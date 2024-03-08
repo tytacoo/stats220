@@ -5,12 +5,12 @@
 ## Projects
 *I'm learning to create some interesting projects using R. My first project is to originate an emoji, and I believe this will be an interesting start.*
 
-## hobby
+### hobby
 - Basketball [Favorite Player](https://en.wikipedia.org/wiki/LeBron_James)
 - Cooking
 - Play computer games
 
-## Favorite Foods
+### Favorite Foods
 1. Taco
 2. Pizza
 3. Chinese food
