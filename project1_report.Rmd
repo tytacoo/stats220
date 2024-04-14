@@ -1,0 +1,158 @@
+---
+title: "Creating images with R"
+subtitle: "with a little bit of magick"
+author: "Tianyu Zhang"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{css}
+
+h1 {
+  font-family: 'Impact';
+  color: #007BFF;
+  font-size: 30px;
+}
+h2 {
+  font-family: 'Impact';
+  color: #6600FF;
+  font-size: 25px;
+  background:#ff5470
+}
+
+p {
+  font-family: 'Impact';
+  color: #996633;
+}
+
+pre, code {
+  background-color: #FFFFCC;
+  font-size: 1em;
+  padding: 5px;
+}
+
+```
+
+## Project requirements
+
+links to my website: [website](https://github.com/tytacoo)
+
+links to my repo:[repo](https://github.com/tytacoo?tab=repositories)
+
+Here is my project folder:
+
+![projectfolder](/Users/zhangtianyu/Desktop/stats220/WechatIMG967.jpg)
+
+
+In creating my Github account I wrote my username as tytacoo as you can see from the link to my website, in creating the REMADE file I used two different levels of headings (## and ### headings format) and two types of lists (ordered and unordered) and decorated my text with bolded and italicized text, and at the end I included a link to the wikipedia page of my favorite player.
+
+I had some problems completing part A, I was not quite sure how to bold the font as well as change it to italic, so I searched the internet for a markdown cheat sheet to help me solve this problem.
+
+## My meme
+
+![meme](/Users/zhangtianyu/Desktop/stats220/Project1/my_meme.png)
+
+
+![animation](/Users/zhangtianyu/Desktop/stats220/Project1/my_animation.gif)
+
+
+```{r meme-code, eval=TRUE}
+# Load the magick and tidyverse library
+library(magick)
+library(tidyverse)
+
+# Read the first meme and scale it to 500 pixels wide
+in_the_class <- image_read("https://a.pinatafarm.com/960x960/0c4d64b259/shocked-pikachu.jpg") %>%
+  image_scale(500)
+
+# Read the second meme scale it to 500 pixels wide
+after_class <- image_read("https://imgs.qiubiaoqing.com/qiubiaoqing/imgs/624def534df9aCcV.gif") %>%
+  image_scale(500)
+
+# Create the first text box with black background and white text "In the class"
+text_box <- image_blank(width = 500, height = 500, color = "#000000") %>%
+  image_annotate(text = "In the class", color = "#FFFFFF", size = 80, font = "Impact", gravity = "center")
+
+#Create the second text box with white background and black text "After class"
+text_box2 <- image_blank(width = 500, height = 500, color = "#FFFFFF") %>%
+  image_annotate(text = "After class", color = "#000000", size = 80, font = "Impact", gravity = "center")
+
+#Append the first text box and the first meme side by side to form the top row
+top_row <- image_append(c(text_box, in_the_class))
+
+#Append the second text box and the second meme side by side to form the second row
+second_row <- image_append(c(text_box2, after_class))
+
+# Combine the top and second rows and scale it to 800 pixels wide
+my_meme <- c(top_row, second_row) %>%
+  image_append(stack = TRUE) %>%
+  image_scale(800)
+
+#save the meme
+image_write(my_meme, "my_meme.png")
+
+```
+
+
+```{r animation-code, eval=FALSE}
+# Load the magick and tidyverse library
+library(magick)
+library(tidyverse)
+
+# Read the first meme and scale it to 500 pixels wide
+in_the_class <- image_read("https://a.pinatafarm.com/960x960/0c4d64b259/shocked-pikachu.jpg") %>%
+  image_scale(500)
+
+# Read the second meme scale it to 500 pixels wide
+after_class <- image_read("https://imgs.qiubiaoqing.com/qiubiaoqing/imgs/624def534df9aCcV.gif") %>%
+  image_scale(500)
+
+# Create the first text box with black background and white text "In the class"
+text_box <- image_blank(width = 500, height = 500, color = "#000000") %>%
+  image_annotate(text = "In the class", color = "#FFFFFF", size = 80, font = "Impact", gravity = "center")
+
+#Create the second text box with white background and black text "After class"
+text_box2 <- image_blank(width = 500, height = 500, color = "#FFFFFF") %>%
+  image_annotate(text = "After class", color = "#000000", size = 80, font = "Impact", gravity = "center")
+
+# Combine the text boxes and memes
+frames <- c(text_box, in_the_class, text_box2, after_class)
+
+# Creating an animation
+my_memegif <- image_morph(frames) %>%
+  image_animate(fps = 50)
+
+# Save the gif
+image_write(my_memegif, "my_animation.gif")
+
+# Create a watermark
+watermark <- image_blank(width = 100, height = 50, color = "#FFFFFF00") %>%
+  image_annotate(text = "tytacoo", color = "red", size = 20, font = "Impact", gravity = "center")
+
+# Read the gif
+my_memegif2 <- image_read("my_animation.gif")
+
+# Composite the watermark onto the gif
+my_memegif2 <- image_composite(my_memegif2, watermark, offset = "+10+10")
+
+
+# Save the gif
+image_write(my_memegif2, "my_animation.gif")
+
+
+
+```
+
+## Creativity
+
+My creativity is to add a watermark to the whole GIF after creating the my_memegif animation, because I think it is a funny meme gif of my own creation, first I create a watermark and then apply this watermark to the whole animation after the GIF is generated. I used image_composite, a function that allows you to superimpose one image on top of another, so it is perfect for watermarking.
+
+## Learning reflection
+
+What I learned from project1 is that once we learn some modern techniques to create HTML, our own ideas and creativity are the most important thing, and it is fun to use your own ideas to accomplish what you want to do. Artificial intelligence will help people learn and improve some of their learning, but I think it is more important to have our own thoughts and ideas.
+
+I am very interested in machine learning and artificial intelligence, I think this is the trend of the future development, if there is an opportunity I would very much like to learn more about the content of artificial intelligence related knowledge.
+
